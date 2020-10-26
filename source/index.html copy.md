@@ -22,78 +22,92 @@ code_run: true
 
 The CloudStore feature is a [Premium](mailto:support@droidscript.org) only service.
 
-Using your CloudStore key you are able to read and write to an area in the cloud.  This allows you to save data outside of your app, making it possible to share between other apps.  
+CloudStore allows you to read and write data to the cloud using your CloudStore [key](https://enjine.io).
+
+This feature allows you to save data outside of your app, making it possible to share information between multiple apps.
 
 It also means you can keep data seperate and persistent from your app.  So if you remove or change an app in anyway your data is preserved. 
 
-# Authentication
+# Example
 
-> To authorize, use this code:
-
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-```
-
-```shell
-# With shell, you can just pass the correct header with each request
-curl "api_endpoint_here"
-  -H "Authorization: meowmeowmeow"
-```
+> To start using CloudStore, use this code:
 
 ```javascript
-const kittn = require('kittn');
+//Called when application is started.
+function OnStart()
+{
+	//Create a layout with objects vertically centered.
+	lay = app.CreateLayout( "linear", "VCenter,FillXY" );	
 
-let api = kittn.authorize('meowmeowmeow');
-```
+	//Add a button to save settings to cloud.
+	btnSave = app.AddButton( lay, "Save", 0.3, 0.1 );
+	btnSave.SetOnTouch( btnSave_OnTouch );
+	
+	//Add a button to load settings from cloud.
+	btnLoad = app.AddButton( lay, "Load", 0.3, 0.1 );
+	btnLoad.SetMargins( 0, 0.05, 0, 0 );
+	btnLoad.SetOnTouch( btnLoad_OnTouch );
+	
+	//Add layout to app.	
+	app.AddLayout( lay );
+	
+	//Create CloudStore component.
+	//(Note: this is a dummy key and will show an error)
+	cloud = app.CreateCloudStore( <YOUR_CLOUDSTORE_KEY> )
+}
 
-> Make sure to replace `meowmeowmeow` with your API key.
+//Called when user touches our Save button.
+function btnSave_OnTouch()
+{	
+	cloud.Save( "GreenHouse", {"Humidity":88,"Temp":27}, OnSave )
+}
 
-Kittn uses API keys to allow access to the API. You can register a new Kittn API key at our [developer portal](http://example.com/developers).
+//Called when the cloud save has completed.
+function OnSave( error, response, status )
+{
+    if( error ) app.ShowPopup( "Http Error: " + response + " " + status )
+    else if( response.error ) app.ShowPopup( "CloudStore Error: " + response.error )
+    else app.ShowPopup( response.data );
+}
 
-Kittn expects for the API key to be included in all API requests to the server in a header that looks like the following:
+//Called when user touches our Save button.
+function btnLoad_OnTouch()
+{
+	cloud.Load( "GreenHouse", OnLoad )
+}
 
-`Authorization: meowmeowmeow`
+//Called when the cloud save has completed.
+function OnLoad( error, response, status )
+{
+    if( error ) app.ShowPopup( "Http Error: " + response + " " + status )
+    else if( response.error ) app.ShowPopup( "CloudStore Error: " + response.error )
+    else app.ShowPopup( response.data.Humidity );
+}
+
+> Make sure to replace `YOUR_CLOUDSTORE_KEY` with your CloudStore key.
+
+Kittn uses API keys to allow access to the CloudStore service. You can register a new CloudStore key at our [enjine.io portal](https://enjine.io).
 
 <aside class="notice">
-You must replace <code>meowmeowmeow</code> with your personal API key.
+You must replace <code><YOUR_CLOUDSTORE_KEY></code> with your personal CloudStore key.
 </aside>
 
-# Kittens
+# Tutorial
 
-## Get All Kittens
-
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.get
-```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-api.kittens.get()
-```
-
-```shell
-curl "http://example.com/api/kittens"
-  -H "Authorization: meowmeowmeow"
-```
+## Store data
 
 ```javascript
-const kittn = require('kittn');
+cloud = app.CreateCloudStore( <YOUR_CLOUDSTORE_KEY> )
+cloud.Save( "GreenHouse", {"Humidity":88,"Temp":27}, OnSave )
 
-let api = kittn.authorize('meowmeowmeow');
-let kittens = api.kittens.get();
+//Called when the cloud save has completed.
+function OnSave( error, response, status )
+{
+    if( error ) app.ShowPopup( "Http Error: " + response + " " + status )
+    else if( response.error ) app.ShowPopup( "CloudStore Error: " + response.error )
+    else app.ShowPopup( response.data );
+}
+
 ```
 
 > The above command returns JSON structured like this:
