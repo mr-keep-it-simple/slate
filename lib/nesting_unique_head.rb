@@ -17,6 +17,6 @@ class NestingUniqueHeadCounter < Middleman::Renderers::MiddlemanRedcarpetHTML
       end
     end
 
-    return "<h#{header_level} id='#{friendly_text}'>#{text}</h#{header_level}>"
+    return "<h#{header_level} class='nesting_head' id='#{friendly_text}'>#{text}</h#{header_level}>"
   end
 end
