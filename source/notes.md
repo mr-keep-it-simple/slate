@@ -14,4 +14,5 @@
 
 ## DONE
 
-- 3hrs Slate docs UI changes/layout.formating
+- Fri 30-10: 3hrs Slate docs UI changes/layout.formating
+- Mon 02-11: 2hrs Building static html version. New documentation added. Dark theme added
