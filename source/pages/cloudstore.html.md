@@ -173,15 +173,69 @@ function OnLoad( error, response, status )
 }
 ```
 
+## List
+
+`cloud.List( callback )`
+
+CloudStore List function allows you to get a list of all your files that you have uploaded
+
+Parameter | Required | Description
+--------- | ------- | -----------
+callback | false | An async function called when the delete has completed with success or fail
+
+### Example
+
+```javascript
+cloud = app.CreateCloudStore( "<YOUR_CLOUDSTORE_KEY>" )
+cloud.List( OnList )
+
+function OnList( error, response, status )
+{
+  // returned stuff
+}
+```
+
+## Upload
+
+`cloud.Upload( data, filename, type, callback )`
+
+CloudStore Upload function allows you to upload a file to the cloud.  You can set permissions for uploading in the [admin control panel](https://droidscript.cloud/admin/admin.html)
+
+Parameter | Required | Description
+--------- | ------- | -----------
+data | true | A string representation of the file you would like to upload
+filename | true | A string value of the filename you want it stored as
+type | false | A string representation of the file type being uploaded
+callback | false | An async function called when the delete has completed with success or fail
+
+### Example
+
+```javascript
+cloud = app.CreateCloudStore( "<YOUR_CLOUDSTORE_KEY>" )
+app.ChooseFile( "Choose a file", "*/*", OnFileChoose );
+
+// Let's assume you choose an image as your file
+function OnFileChoose( filename )
+{
+    // filename
+    data = app.ReadFile( filename, "base64" )
+    cloud.Upload( data, "jazz3.jpg", "image/jpg", OnUpload )
+}
+
+function OnUpload( error, response, status )
+{
+    if( error ) app.ShowPopup( "Http Error: " + response + " " + status )
+    else if( response.error ) app.ShowPopup( "CloudStore Error: " + response.error )
+    else app.ShowPopup( response.message );
+}
+```
+
 <%= image_tag "images/logo.png" %>
-
-
 
 <!--
 <aside class="success">
 Remember — a happy kitten is an authenticated kitten!
 </aside>
-
 
 <aside class="warning">Inside HTML code blocks like this one, you can't use Markdown, so use <code>&lt;code&gt;</code> blocks to denote code.</aside>
 -->
