@@ -651,11 +651,13 @@ html, body {
 .content > h1, .content > h2, .content > h3, .content > h4, .content > h5, .content > h6, .content > p, .content > table, .content > ul, .content > ol, .content > aside, .content > dl { margin-right:0 !important; background-color:$nav-bg !important; color:$nav-text !important; }
 .content pre, .content blockquote { width:100% !important; float:none !important;}
 .content a { color: #0F75D4 !important; }
+.content, td { background-color: $nav-bg !important; }
 .page-wrapper .dark-box { display:none; }
+.toc-wrapper .toc-link.active-parent, .toc-wrapper .toc-list-h2 { background-color:transparent; }
 @media (min-width: 700px) {
   div.highlight { margin:0 2rem; }
   .content blockquote { display: inline-block;
-    background-color: #fff !important;
+    background-color: transparent !important;
     margin-left: 2rem !important; 
   width:auto !important; }
 }

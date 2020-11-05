@@ -4,6 +4,9 @@ title: enjine.io - CloudStore
 language_tabs: # must be one of https://git.io/vQNgJ
   - javascript
 
+toc_headers:
+ - CloudStore
+
 toc_footers:
   - <a href='mailto:support@droidscript.org'>Sign Up for a CloudStore API Key</a>
 
@@ -16,7 +19,7 @@ code_clipboard: true
 code_run: true
 ---
 
-# CloudStore
+# Data
 
 CloudStore allows you to read and write data to the cloud using your CloudStore [key](https://enjine.io).
 
@@ -195,6 +198,14 @@ function OnList( error, response, status )
 }
 ```
 
+## Password Protection
+
+
+
+# Media
+
+bla bla bla
+
 ## Upload
 
 `cloud.Upload( data, filename, type, callback )`
@@ -230,8 +241,20 @@ function OnUpload( error, response, status )
 }
 ```
 
-<%= image_tag "images/logo.png" %>
+# Dashboard
 
+## Loading
+
+- Navigate to [https://droidscript.cloud/admin/admin.html](https://droidscript.cloud/admin/admin.html)
+- Log in using your **Username** and **Password**
+- You should now be at the enjine.io control panel:
+
+<%= image_tag "images/dashboard_1.png" %>
+
+<aside class="success">
+At the top of the dashboard that is not visible on the screenshot above, you should see your username and below, your Media path which should look something like this: 
+droidscript.cloud/admin/files/b949f9de672a33344061754af45574fc/**file path**
+</aside>
 <!--
 <aside class="success">
 Remember — a happy kitten is an authenticated kitten!
