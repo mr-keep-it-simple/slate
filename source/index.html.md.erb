@@ -69,7 +69,7 @@ function OnSave( error, response, status )
 
 Parameter | Required | Description
 --------- | ------- | -----------
-key | true | A string id to identify the data to store
+key | true | A string id to identify the data to store. This value is case sensitive
 callback | false | A function with 3 parameters: error, response, status.  If the response if OK, you can access the data through response.data
 
 ### Example
@@ -86,7 +86,7 @@ function OnLoad( error, response, status )
 {
     if( error ) app.ShowPopup( "Http Error: " + response + " " + status )
     else if( response.error ) app.ShowPopup( "CloudStore Error: " + response.error )
-    else app.ShowPopup( response.data.Humidity );
+    else app.ShowPopup( response.data.Apples );
 }
 ```
 
@@ -115,7 +115,12 @@ cloud = app.CreateCloudStore( "<YOUR_CLOUDSTORE_KEY>" )
 //Save some data.
 cloud.Save( "Shopping List", {"Apples":8,"Oranges":6}, OnSave )
 
-// Process OnSave as usual...
+function OnSave( error, response, status )
+{
+  if( error ) app.ShowPopup( "Http Error: " + response + " " + status )
+  else if( response.error ) app.ShowPopup( "CloudStore Error: " + response.error )
+  else app.ShowPopup( "Data Saved: " + response.data )
+}
 ```
 
 #### App 2
@@ -145,7 +150,7 @@ function OnLoad( error, response, status )
     // You should now see your new shopping list with 10 Oranges and 8 Bananas
     if( error ) app.ShowPopup( "Http Error: " + response + " " + status )
     else if( response.error ) app.ShowPopup( "CloudStore Error: " + response.error )
-    else app.ShowPopup( response.data );
+    else app.ShowPopup( response.data.Bananas );
 }
 ```
 
@@ -166,7 +171,7 @@ callback | false | An async function called when the delete has completed with s
 //Create CloudStore component.
 cloud = app.CreateCloudStore( "<YOUR_CLOUDSTORE_KEY>" )
 
-cloud.Delete( "GreenHouse", OnDelete )
+cloud.Delete( "Shopping List", OnDelete )
 
 //Handle the response.
 function OnLoad( error, response, status )
@@ -202,8 +207,6 @@ function OnList( error, response, status )
 ## Password Protection
 
 You can control read/write access to your data objects which can be useful when sharing CloudStore access with other apps and users.
-
-
 
 # Media
 
@@ -265,8 +268,8 @@ You can control read/write access to your data files which can be useful when sh
 
 <%= image_tag "images/dashboard_1.png" %>
 
-<aside class="success">
-At the top of the dashboard that is not visible on the screenshot above, you should see your username and below, your Media path which should look something like this: 
+<aside class="notice-right">
+At the top of the dashboard that's not visible on the screenshot above, you should see your username and below, your Media path which should look something like this: 
 droidscript.cloud/admin/files/b949f9de672a33344061754af45574fc/**file path**
 </aside>
 
