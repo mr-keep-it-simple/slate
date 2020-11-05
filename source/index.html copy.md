@@ -4,12 +4,13 @@ title: enjine.io - CloudStore
 language_tabs: # must be one of https://git.io/vQNgJ
   - javascript
 
+toc_headers:
+ - CloudStore
+
 toc_footers:
   - <a href='mailto:support@droidscript.org'>Sign Up for a CloudStore API Key</a>
-  #- <a href='https://github.com/slatedocs/slate'>Documentation Powered by Slate</a>
 
 includes:
-  - errors
 
 search: true
 
@@ -18,9 +19,7 @@ code_clipboard: true
 code_run: true
 ---
 
-# CloudStore
-
-The CloudStore feature is a [Premium](mailto:support@droidscript.org) only service.
+# Data
 
 CloudStore allows you to read and write data to the cloud using your CloudStore [key](https://enjine.io).
 
@@ -28,227 +27,241 @@ This feature allows you to save data outside of your app, making it possible to 
 
 It also means you can keep data seperate and persistent from your app.  So if you remove or change an app in anyway your data is preserved. 
 
-# Example
+CloudStore uses API keys to allow access to the CloudStore service. You can register a new CloudStore key at our [enjine.io portal](https://enjine.io).
 
-> To start using CloudStore, use this code:
+## Saving data
+
+`cloud.Save( key, value, callback )`
+
+### Query Parameters
+
+Parameter | Required | Description
+--------- | ------- | -----------
+key | true | A string id to identify the data to store
+value | true | The data to store.  You can store a string, integer, or even a JavaScript object 
+callback | false | A function with 3 parameters: error, response, status
+
+> <aside class="notice-right">You must replace <code>&lt;YOUR_CLOUDSTORE_KEY&gt;</code> with your personal CloudStore key.</aside>
+
+### Example
 
 ```javascript
-//Called when application is started.
-function OnStart()
-{
-	//Create a layout with objects vertically centered.
-	lay = app.CreateLayout( "linear", "VCenter,FillXY" );	
+//Create CloudStore component.
+cloud = app.CreateCloudStore( "<YOUR_CLOUDSTORE_KEY>" )
 
-	//Add a button to save settings to cloud.
-	btnSave = app.AddButton( lay, "Save", 0.3, 0.1 );
-	btnSave.SetOnTouch( btnSave_OnTouch );
-	
-	//Add a button to load settings from cloud.
-	btnLoad = app.AddButton( lay, "Load", 0.3, 0.1 );
-	btnLoad.SetMargins( 0, 0.05, 0, 0 );
-	btnLoad.SetOnTouch( btnLoad_OnTouch );
-	
-	//Add layout to app.	
-	app.AddLayout( lay );
-	
-	//Create CloudStore component.
-	//(Note: this is a dummy key and will show an error)
-	cloud = app.CreateCloudStore( <YOUR_CLOUDSTORE_KEY> )
-}
+//Save some data.
+cloud.Save( "Shopping List", {"Apples":8,"Oranges":6}, OnSave )
 
-//Called when user touches our Save button.
-function btnSave_OnTouch()
-{	
-	cloud.Save( "GreenHouse", {"Humidity":88,"Temp":27}, OnSave )
-}
-
-//Called when the cloud save has completed.
+//Handle the response.
 function OnSave( error, response, status )
 {
     if( error ) app.ShowPopup( "Http Error: " + response + " " + status )
     else if( response.error ) app.ShowPopup( "CloudStore Error: " + response.error )
-    else app.ShowPopup( response.data );
+    else app.ShowPopup( "Data Saved: " + response.data )
 }
+```
 
-//Called when user touches our Save button.
-function btnLoad_OnTouch()
-{
-	cloud.Load( "GreenHouse", OnLoad )
-}
+## Getting data
 
-//Called when the cloud save has completed.
+`cloud.Load( key, callback )`
+
+### Query Parameters
+
+Parameter | Required | Description
+--------- | ------- | -----------
+key | true | A string id to identify the data to store
+callback | false | A function with 3 parameters: error, response, status.  If the response if OK, you can access the data through response.data
+
+### Example
+
+```javascript
+//Create CloudStore component.
+cloud = app.CreateCloudStore( "<YOUR_CLOUDSTORE_KEY>" )
+
+//Load some data.
+cloud.Load( "Shopping List", OnLoad )
+
+//Handle the response.
 function OnLoad( error, response, status )
 {
     if( error ) app.ShowPopup( "Http Error: " + response + " " + status )
     else if( response.error ) app.ShowPopup( "CloudStore Error: " + response.error )
     else app.ShowPopup( response.data.Humidity );
 }
+```
 
-> Make sure to replace `YOUR_CLOUDSTORE_KEY` with your CloudStore key.
+## Merging data
 
-Kittn uses API keys to allow access to the CloudStore service. You can register a new CloudStore key at our [enjine.io portal](https://enjine.io).
+`cloud.Merge( key, value, callback )`
 
-<aside class="notice">
-You must replace <code><YOUR_CLOUDSTORE_KEY></code> with your personal CloudStore key.
-</aside>
+You can merge data objects enabling you to modify and update data shared between multiple apps. The **Merge** function recursively merges values passed with the source object, replacing any existing data and adding new data.
 
-# Tutorial
+Source properties that resolve to undefined are skipped if a destination value exists. Array and plain object properties are merged recursively. Other objects and value types are overridden by assignment. Source objects are applied from left to right. Subsequent sources overwrite property assignments of previous sources.
 
-## Store data
+Parameter | Required | Description
+--------- | ------- | -----------
+key | true | A string id to identify the data to merge
+value | true | A JavaScript data object containing the data you want to merge with the source object.  If no source object exists, a new object will be created
+callback | false | An async function called when the merge has completed
+
+### Example
+
+#### App 1
 
 ```javascript
-cloud = app.CreateCloudStore( <YOUR_CLOUDSTORE_KEY> )
-cloud.Save( "GreenHouse", {"Humidity":88,"Temp":27}, OnSave )
+//Create CloudStore component.
+cloud = app.CreateCloudStore( "<YOUR_CLOUDSTORE_KEY>" )
 
-//Called when the cloud save has completed.
+//Save some data.
+cloud.Save( "Shopping List", {"Apples":8,"Oranges":6}, OnSave )
+
+// Process OnSave as usual...
+```
+
+#### App 2
+
+```javascript
+//Create CloudStore component.
+cloud = app.CreateCloudStore( "<YOUR_CLOUDSTORE_KEY>" )
+
+//Merge some data with our GreenHouse store and change the Temp value.
+cloud.Merge( "Shopping List", {"Apples":8,"Oranges":10,"Bananas":8}, OnSave )
+
+//Handle the response.
 function OnSave( error, response, status )
 {
     if( error ) app.ShowPopup( "Http Error: " + response + " " + status )
     else if( response.error ) app.ShowPopup( "CloudStore Error: " + response.error )
-    else app.ShowPopup( response.data );
+    else {
+        // Data merged successfully
+        // Lets now reload the data to see if our object has changed
+        cloud.Load( "Shopping List", OnLoad )
+    }
 }
 
+//Handle the response.
+function OnLoad( error, response, status )
+{
+    // You should now see your new shopping list with 10 Oranges and 8 Bananas
+    if( error ) app.ShowPopup( "Http Error: " + response + " " + status )
+    else if( response.error ) app.ShowPopup( "CloudStore Error: " + response.error )
+    else app.ShowPopup( response.data );
+}
 ```
 
-> The above command returns JSON structured like this:
+## Deleting data
 
-```json
-[
-  {
-    "id": 1,
-    "name": "Fluffums",
-    "breed": "calico",
-    "fluffiness": 6,
-    "cuteness": 7
-  },
-  {
-    "id": 2,
-    "name": "Max",
-    "breed": "unknown",
-    "fluffiness": 5,
-    "cuteness": 10
-  }
-]
-```
+`cloud.Delete( key, callback )`
 
-This endpoint retrieves all kittens.
+You can delete cloudstore data by sending the id of the item you wish to remove.
 
-### HTTP Request
-
-`GET http://example.com/api/kittens`
-
-### Query Parameters
-
-Parameter | Default | Description
+Parameter | Required | Description
 --------- | ------- | -----------
-include_cats | false | If set to true, the result will also include cats.
-available | true | If set to false, the result will include kittens that have already been adopted.
+key | true | A string id to identify the data store to delete
+callback | false | An async function called when the delete has completed with success or fail
 
+### Example
+
+```javascript
+//Create CloudStore component.
+cloud = app.CreateCloudStore( "<YOUR_CLOUDSTORE_KEY>" )
+
+cloud.Delete( "GreenHouse", OnDelete )
+
+//Handle the response.
+function OnLoad( error, response, status )
+{
+    if( error ) app.ShowPopup( "Http Error: " + response + " " + status )
+    else if( response.error ) app.ShowPopup( "CloudStore Error: " + response.error )
+    else app.ShowPopup( "Store deleted!" );
+}
+```
+
+## Listing Data Objects
+
+`cloud.List( callback )`
+
+CloudStore List function allows you to get a list of all your files that you have uploaded
+
+Parameter | Required | Description
+--------- | ------- | -----------
+callback | false | An async function called when the delete has completed with success or fail
+
+### Example
+
+```javascript
+cloud = app.CreateCloudStore( "<YOUR_CLOUDSTORE_KEY>" )
+cloud.List( OnList )
+
+function OnList( error, response, status )
+{
+  // returned stuff
+}
+```
+
+## Password Protection
+
+You can control read/write access to your data objects which can be useful when sharing CloudStore access with other apps and users.
+
+
+
+# Media
+
+
+
+## Upload
+
+`cloud.Upload( data, filename, type, callback )`
+
+CloudStore Upload function allows you to upload a file to the cloud.  You can set permissions for uploading in the [admin control panel](https://droidscript.cloud/admin/admin.html)
+
+Parameter | Required | Description
+--------- | ------- | -----------
+data | true | A string representation of the file you would like to upload
+filename | true | A string value of the filename you want it stored as
+type | false | A string representation of the file type being uploaded
+callback | false | An async function called when the delete has completed with success or fail
+
+### Example
+
+```javascript
+cloud = app.CreateCloudStore( "<YOUR_CLOUDSTORE_KEY>" )
+app.ChooseFile( "Choose a file", "*/*", OnFileChoose );
+
+// Let's assume you choose an image as your file
+function OnFileChoose( filename )
+{
+    // filename
+    data = app.ReadFile( filename, "base64" )
+    cloud.Upload( data, "jazz3.jpg", "image/jpg", OnUpload )
+}
+
+function OnUpload( error, response, status )
+{
+    if( error ) app.ShowPopup( "Http Error: " + response + " " + status )
+    else if( response.error ) app.ShowPopup( "CloudStore Error: " + response.error )
+    else app.ShowPopup( response.message );
+}
+```
+
+# Dashboard
+
+## Loading
+
+- Navigate to [https://droidscript.cloud/admin/admin.html](https://droidscript.cloud/admin/admin.html)
+- Log in using your **Username** and **Password**
+- You should now be at the enjine.io control panel:
+
+<%= image_tag "images/dashboard_1.png" %>
+
+<aside class="success">
+At the top of the dashboard that is not visible on the screenshot above, you should see your username and below, your Media path which should look something like this: 
+droidscript.cloud/admin/files/b949f9de672a33344061754af45574fc/**file path**
+</aside>
+<!--
 <aside class="success">
 Remember — a happy kitten is an authenticated kitten!
 </aside>
 
-## Get a Specific Kitten
-
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.get(2)
-```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-api.kittens.get(2)
-```
-
-```shell
-curl "http://example.com/api/kittens/2"
-  -H "Authorization: meowmeowmeow"
-```
-
-```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-let max = api.kittens.get(2);
-```
-
-> The above command returns JSON structured like this:
-
-```json
-{
-  "id": 2,
-  "name": "Max",
-  "breed": "unknown",
-  "fluffiness": 5,
-  "cuteness": 10
-}
-```
-
-This endpoint retrieves a specific kitten.
-
 <aside class="warning">Inside HTML code blocks like this one, you can't use Markdown, so use <code>&lt;code&gt;</code> blocks to denote code.</aside>
-
-### HTTP Request
-
-`GET http://example.com/kittens/<ID>`
-
-### URL Parameters
-
-Parameter | Description
---------- | -----------
-ID | The ID of the kitten to retrieve
-
-## Delete a Specific Kitten
-
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.delete(2)
-```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-api.kittens.delete(2)
-```
-
-```shell
-curl "http://example.com/api/kittens/2"
-  -X DELETE
-  -H "Authorization: meowmeowmeow"
-```
-
-```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-let max = api.kittens.delete(2);
-```
-
-> The above command returns JSON structured like this:
-
-```json
-{
-  "id": 2,
-  "deleted" : ":("
-}
-```
-
-This endpoint deletes a specific kitten.
-
-### HTTP Request
-
-`DELETE http://example.com/kittens/<ID>`
-
-### URL Parameters
-
-Parameter | Description
---------- | -----------
-ID | The ID of the kitten to delete
-
+-->
