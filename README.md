@@ -88,9 +88,16 @@ Special Thanks
 - [Font Awesome](http://fortawesome.github.io/Font-Awesome/)
 
 
-Running project within vscode
+## Running project within vscode
 -------------------
 - Open Terminal window
 - Type
   docker run -d --rm --name slate -p 4567:4567 -v $(pwd)/build:/srv/slate/build -v $(pwd)/source:/srv/slate/source slate
 - open web browser and navigate to http://localhost:4567
+
+## Generating static files
+
+ - Open up docker image in terminal window
+ - run > bundle exec middleman build
+ - This build all static web pages to the build folder
+ 

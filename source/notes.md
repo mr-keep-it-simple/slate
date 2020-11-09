@@ -14,7 +14,9 @@ ClhXXPi5bjcTjGjVqqp2
 
 ## TODOs
 
-- Find out how to generate static files and send to David
+- <strike>Install Slate GitHub project on local machine</strike>
+- <strike>Find out how to generate static files and send to David</strike>
+- Solution:
   - Open up docker image in terminal window
   - run > bundle exec middleman build
   - This build all static web pages to the build folder
@@ -35,15 +37,6 @@ ClhXXPi5bjcTjGjVqqp2
 - Mon 02-11: 2hrs Building static html version. New documentation added. Dark theme added
 - Tue 03-11: 2hrs Continuation of documentation.  Load and Upload methods added to CloudStore doc
 - Wed 04-11: 2hrs Discussion of structure, layout, styling and further dev tasks.  Modification of layout and further styling
-- Thu 05-11: 1hr Contuation of documentation and tidying up of code examples to change from Greenhouse to Shopping List
+- Thu 05-11: 1.5hrs Continuation of documentation and tidying up of code examples to change from Greenhouse to Shopping List
+- Mon 09-11: 4.5hrs Added Media documentation, corrected mistakes and extended Data File documentation.  Added documentation for new dashboard UI
 
-## Control Panel observations
-
-- When using the File Uploader tool and I add too many files I get the error: ERROR: You have reached your maximum number of files so this file will be discarded.
-  This message is a little confusing as it doesn't tell you what file(s) will be discarded.
-
-- When using the File Uploader tool there is no back button to get back to the control panel home screen
-
-- When pressing delete could we have a dialog confirm box before the deletion process occurs?
-
-- The font for the filename and data file info
