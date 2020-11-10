@@ -1,11 +1,8 @@
 ---
-title: enjine.io - CloudStore
+title: enjine.io CloudStore
 
 language_tabs: # must be one of https://git.io/vQNgJ
   - javascript
-
-toc_headers:
- - CloudStore
 
 toc_footers:
   - <a href='mailto:support@droidscript.org'>Sign Up for a CloudStore API Key</a>
@@ -41,7 +38,6 @@ Parameter | Required | Description
 key | true | A string id to identify the data to store. This value is case sensitive.
 value | true | The data to store.  You can store a string, integer, or even pass a JavaScript object.
 callback | false | A function that returns 3 parameters: error, response, status
-password | false | Set a password for view and edit rights
 
 ### Example
 
@@ -50,10 +46,10 @@ password | false | Set a password for view and edit rights
 cloud = app.CreateCloudStore( "<YOUR_CLOUDSTORE_KEY>" )
 
 //Save some data.
-cloud.Save( "Shopping_List", {"Apples":8,"Oranges":6}, OnSave )
+cloud.Save( "Shopping_List", {"Apples":8,"Oranges":6}, onSave )
 
 //Handle the response.
-function OnSave( error, response, status )
+function onSave( error, response, status )
 {
     if( error ) app.ShowPopup( "Http Error: " + response + " " + status )
     else if( response.error ) app.ShowPopup( "CloudStore Error: " + response.error )
@@ -73,7 +69,7 @@ Parameter | Required | Description
 --------- | ------- | -----------
 key | true | A string id to identify the data to store. This value is case sensitive.
 callback | false | A function that returns 3 parameters: error, response, status.  If the response is OK, you can access the data through response.data.
-password | false | Password to access data file if one is set
+password | false | Password to access the data file (Passwords are set in the CloudStore [admin control panel](https://droidscript.cloud/admin/admin.html)). If a password has been set and you do not pass the correct value, you will get an error.
 
 ### Example
 
@@ -82,10 +78,10 @@ password | false | Password to access data file if one is set
 cloud = app.CreateCloudStore( "<YOUR_CLOUDSTORE_KEY>" )
 
 //Load some data.
-cloud.Load( "Shopping_List", OnLoad )
+cloud.Load( "Shopping_List", onLoad )
 
 //Handle the response.
-function OnLoad( error, response, status )
+function onLoad( error, response, status )
 {
     if( error ) app.ShowPopup( "Http Error: " + response + " " + status )
     else if( response.error ) app.ShowPopup( "CloudStore Error: " + response.error )
@@ -95,7 +91,7 @@ function OnLoad( error, response, status )
 
 ## Merging data
 
-`cloud.Merge( key, value, callback )`
+`cloud.Merge( key, value, callback, password )`
 
 The **Merge** function allows you to merge and update existing data objects.
 
@@ -124,9 +120,9 @@ password | false | Password to access data file if one is set
 cloud = app.CreateCloudStore( "<YOUR_CLOUDSTORE_KEY>" )
 
 //Save some data.
-cloud.Save( "Shopping_List", {"Apples":8,"Oranges":6}, OnSave )
+cloud.Save( "Shopping_List", {"Apples":8,"Oranges":6}, onSave )
 
-function OnSave( error, response, status )
+function onSave( error, response, status )
 {
   if( error ) app.ShowPopup( "Http Error: " + response + " " + status )
   else if( response.error ) app.ShowPopup( "CloudStore Error: " + response.error )
@@ -141,22 +137,22 @@ function OnSave( error, response, status )
 cloud = app.CreateCloudStore( "<YOUR_CLOUDSTORE_KEY>" )
 
 //Merge some data with our GreenHouse store and change the Temp value.
-cloud.Merge( "Shopping_List", {"Apples":8,"Oranges":10,"Bananas":8}, OnSave )
+cloud.Merge( "Shopping_List", {"Apples":8,"Oranges":10,"Bananas":8}, onSave )
 
 //Handle the response.
-function OnSave( error, response, status )
+function OonSave( error, response, status )
 {
     if( error ) app.ShowPopup( "Http Error: " + response + " " + status )
     else if( response.error ) app.ShowPopup( "CloudStore Error: " + response.error )
     else {
         // Data merged successfully
         // Lets now reload the data to see if our object has changed
-        cloud.Load( "Shopping_List", OnLoad )
+        cloud.Load( "Shopping_List", onLoad )
     }
 }
 
 //Handle the response.
-function OnLoad( error, response, status )
+function onLoad( error, response, status )
 {
     // You should now see your new Shopping_List with 10 Oranges and 8 Bananas
     if( error ) app.ShowPopup( "Http Error: " + response + " " + status )
@@ -188,10 +184,10 @@ callback | true | A function that returns 3 parameters: error, response, status.
 //Create CloudStore component.
 cloud = app.CreateCloudStore( "<YOUR_CLOUDSTORE_KEY>" )
 
-cloud.List( "Shopping", OnList )
+cloud.List( "Shopping", onList )
 
 //Handle the response.
-function OnList( error, response, status )
+function onList( error, response, status )
 {
     if( error ) app.ShowPopup( "Http Error: " + response + " " + status )
     else if( response.error ) app.ShowPopup( "CloudStore Error: " + response.error )
@@ -202,7 +198,7 @@ function OnList( error, response, status )
 
 ## Deleting data
 
-`cloud.Delete( key, callback )`
+`cloud.Delete( key, callback, password )`
 
 The **Delete** function allows you to delete existing data objects from the CloudStore.
 
@@ -213,6 +209,7 @@ Parameter | Required | Description
 --------- | ------- | -----------
 key | true | A string id to identify the data store to delete.  This is case sensitive.
 callback | false | A function that returns 3 parameters: error, response, status. On success you will see the string 'File Deleted' in response.data
+password | false | The value for the **edit** password set in the CloudStore [admin control panel](https://droidscript.cloud/admin/admin.html)
 
 ### Example
 
@@ -220,10 +217,10 @@ callback | false | A function that returns 3 parameters: error, response, status
 //Create CloudStore component.
 cloud = app.CreateCloudStore( "<YOUR_CLOUDSTORE_KEY>" )
 
-cloud.Delete( "Shopping_List", OnDelete )
+cloud.Delete( "Shopping_List", onDelete )
 
 //Handle the response.
-function OnDelete( error, response, status )
+function onDelete( error, response, status )
 {
     if( error ) app.ShowPopup( "Http Error: " + response + " " + status )
     else if( response.error ) app.ShowPopup( "CloudStore Error: " + response.error )
@@ -233,8 +230,10 @@ function OnDelete( error, response, status )
 
 # Media
 
-CloudStore allows you to store media files (text and image files) in the cloud so they can be accessed within your single app or across multiple apps 
-(To access the media files across multiple apps, you will need to use the same api key)
+CloudStore allows you to store media files (text and image files) in the cloud so they can be accessed across multiple apps 
+and stay persistent event when your app is removed from your device.
+
+> <aside class="notice-right">To access media files across multiple apps, you will need to use the same api key in each app</aside>
 
 ## Upload
 
@@ -260,10 +259,10 @@ function OnFileChoose( filename )
 {
     // filename
     data = app.ReadFile( filename, "base64" )
-    cloud.Upload( data, "jazz3.jpg", "image/jpg", OnUpload )
+    cloud.Upload( data, "jazz3.jpg", "image/jpg", onUpload )
 }
 
-function OnUpload( error, response, status )
+function onUpload( error, response, status )
 {
     if( error ) app.ShowPopup( "Http Error: " + response + " " + status )
     else if( response.error ) app.ShowPopup( "CloudStore Error: " + response.error )
@@ -273,10 +272,9 @@ function OnUpload( error, response, status )
 
 ## Password Protection
 
-You can control **edit** access to your media files by setting a password to each file in the [CloudStore admin control panel](https://droidscript.cloud/admin/admin.html).  
+You can control **edit** access to your media files by setting a password to each file in the CloudStore [admin control panel](https://droidscript.cloud/admin/admin.html).  
 
-Please see documentation below for more information.
-
+Please see the documentation below for more information.
 
 # Dashboard
 
@@ -312,6 +310,53 @@ If you press the **padlock** icon you will see a dialog box appear allowing you 
 <%= image_tag "images/dashboard_df_pwd_2.png" %>
 
 Set the password to enable **edit** control. Now whenever a user tries to edit this file they will need to pass along the password to each function call.
+
+### Example
+
+Let's start by setting a an **edit** password on our **Shopping List** data file
+
+<%= image_tag "images/dashboard_df_pwd_3.png" %>
+
+Now let's try merging with this data file, but without appending the password in our **Merge** function
+
+```javascript
+//Create CloudStore component.
+cloud = app.CreateCloudStore( "<YOUR_CLOUDSTORE_KEY>" )
+
+function btnMerge_OnTouch()
+{
+    cloud.Merge( "Shopping_List", { plums:5 }, onMerge )
+}
+
+function onMerge( error, response, status )
+{
+    if( error ) app.ShowPopup( "Http Error: " + response + " " + status )
+    else if( response.error ) app.ShowPopup( "CloudStore Error: " + response.error )
+    else { app.ShowPopup( response.data ) }
+}
+```
+
+If you try to run the code above you should get a **File Locked** error.  
+You must send the correct password as the final parameter in the **Merge** function:
+
+```javascript
+//Create CloudStore component.
+cloud = app.CreateCloudStore( "<YOUR_CLOUDSTORE_KEY>" )
+
+function btnMerge_OnTouch()
+{
+    cloud.Merge( "Shopping_List", { plums:5 }, onMerge, "12345" )
+}
+
+function onMerge( error, response, status )
+{
+    if( error ) app.ShowPopup( "Http Error: " + response + " " + status )
+    else if( response.error ) app.ShowPopup( "CloudStore Error: " + response.error )
+    else { app.ShowPopup( response.data ) }
+}
+```
+
+If you now run this code you should see the message **Entry saved**.
 
 ## Media Files
 

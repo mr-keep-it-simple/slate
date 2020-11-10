@@ -39,4 +39,4 @@ ClhXXPi5bjcTjGjVqqp2
 - Wed 04-11: 2hrs Discussion of structure, layout, styling and further dev tasks.  Modification of layout and further styling
 - Thu 05-11: 1.5hrs Continuation of documentation and tidying up of code examples to change from Greenhouse to Shopping List
 - Mon 09-11: 4.5hrs Added Media documentation, corrected mistakes and extended Data File documentation.  Added documentation for new dashboard UI
-
+- Tue 10-11: 2hrs Finish up of first version of documentation
