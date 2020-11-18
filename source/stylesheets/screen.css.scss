@@ -644,7 +644,7 @@ html, body {
 /*.content > h2, .content > div {
   clear: none !important; }
 */
-.logo { margin-top:1rem; }
+.logo { display:none !important; /*margin-top:1rem;*/ }
 /*.logo:after { content:'CloudStore'; display:block; color: #fff; font-size:1rem; }*/
 /*.content>h1:first-child::before { content:"CloudStore"; font-size:1.1rem; font-weight:600; color:#fff; }*/
 .notice-right { background-color:#1f75d4 !important; padding-left:1rem; padding-right:1rem }
@@ -667,4 +667,6 @@ html, body {
     background-color: transparent !important;
     margin-left: 2rem !important; 
   width:auto !important; }
+  #img-overview { width:50%; }
+  .toc-wrapper { padding-top:2rem; }
 }

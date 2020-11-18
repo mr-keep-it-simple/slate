@@ -26,10 +26,22 @@ ClhXXPi5bjcTjGjVqqp2
 - Document dashboard (cloudstore control panel)
 - write demo code to test
 
+===================
 - Sub headings for web page:
   - Data
   - Media
   - Dashboard
+
+  - Examples for password protection 
+  - News updates - (data): select editors allowed update the data file with a password prompt
+  - News flash or promotion image - Loaded through CloudStore dashboard or special admin app or admin mode/section with password prompt
+  - Media paths are unique and unguessable (non sequential) for safe sharing publically or privately
+  - E-commerce
+
+ - Add warning to not hard code password into code (use warning alert)
+
+ - Add password argument for media Upload function
+===================
 
 ## DONE
 
