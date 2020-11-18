@@ -15,6 +15,9 @@ code_clipboard: true
 
 code_run: true
 ---
+# Overview
+
+<%= image_tag "images/enjine_io_architecture.png" %>
 
 # Data
 
@@ -133,14 +136,14 @@ function onSave( error, response, status )
 #### App 2
 
 ```javascript
-//Create CloudStore component.
+// Create CloudStore component.
 cloud = app.CreateCloudStore( "<YOUR_CLOUDSTORE_KEY>" )
 
-//Merge some data with our GreenHouse store and change the Temp value.
+// Update our Shopping List with some a new item and change the value of existing items.
 cloud.Merge( "Shopping_List", {"Apples":8,"Oranges":10,"Bananas":8}, onSave )
 
-//Handle the response.
-function OonSave( error, response, status )
+// Handle the response.
+function onSave( error, response, status )
 {
     if( error ) app.ShowPopup( "Http Error: " + response + " " + status )
     else if( response.error ) app.ShowPopup( "CloudStore Error: " + response.error )
@@ -151,7 +154,7 @@ function OonSave( error, response, status )
     }
 }
 
-//Handle the response.
+// Handle the response.
 function onLoad( error, response, status )
 {
     // You should now see your new Shopping_List with 10 Oranges and 8 Bananas
@@ -228,6 +231,12 @@ function onDelete( error, response, status )
 }
 ```
 
+## Password Protection
+
+You can control **read** and **edit** access to your data files by setting a password to each file in the CloudStore [admin control panel](https://droidscript.cloud/admin/admin.html).  
+
+Please see the section [Dashboard](#Dashboard)
+
 # Media
 
 CloudStore allows you to store media files (text and image files) in the cloud so they can be accessed across multiple apps 
@@ -269,12 +278,6 @@ function onUpload( error, response, status )
     else app.ShowPopup( response.message );
 }
 ```
-
-## Password Protection
-
-You can control **edit** access to your media files by setting a password to each file in the CloudStore [admin control panel](https://droidscript.cloud/admin/admin.html).  
-
-Please see the documentation below for more information.
 
 # Dashboard
 
