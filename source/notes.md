@@ -33,10 +33,10 @@ ClhXXPi5bjcTjGjVqqp2
   - Dashboard
 
   - Examples for password protection 
-  - News updates - (data): select editors allowed update the data file with a password prompt
-  - News flash or promotion image - Loaded through CloudStore dashboard or special admin app or admin mode/section with password prompt
-  - Media paths are unique and unguessable (non sequential) for safe sharing publically or privately
-  - E-commerce
+    - News updates - (data): select editors allowed update the data file with a password prompt
+    - News flash or promotion image - Loaded through CloudStore dashboard or special admin app or admin mode/section with password prompt
+    - Media paths are unique and unguessable (non sequential) for safe sharing publically or privately
+    - E-commerce
 
  - Add warning to not hard code password into code (use warning alert)
 
@@ -52,3 +52,7 @@ ClhXXPi5bjcTjGjVqqp2
 - Thu 05-11: 1.5hrs Continuation of documentation and tidying up of code examples to change from Greenhouse to Shopping List
 - Mon 09-11: 4.5hrs Added Media documentation, corrected mistakes and extended Data File documentation.  Added documentation for new dashboard UI
 - Tue 10-11: 2hrs Finish up of first version of documentation
+- Wed 18-11: 4hrs Discussed status and next steps. Made changes to text and images
+- Thu 19-11: 1hr Change all refs for admin control panel to admin dashboard; Updated all pictures of admin dashboard; Updated password protection and tidied up more of the document
+
+

@@ -44,7 +44,7 @@ callback | no | A function that returns 3 parameters: error, response, status
 
 ```javascript
 //Create CloudStore component.
-cloud = app.CreateCloudStore( "<YOUR_CLOUDSTORE_KEY>" )
+cloud = CreateCloudStore( "<YOUR_CLOUDSTORE_KEY>" )
 
 //Save some data.
 cloud.Save( "Shopping_List", {"Apples":8,"Oranges":6}, onSave )
@@ -70,13 +70,13 @@ Parameter | Required | Description
 --------- | ------- | -----------
 key | yes | A string id to identify the data to store. This value is case sensitive.
 callback | no | A function that returns 3 parameters: error, response, status.  If the response is OK, you can access the data through response.data.
-password | no | Password to access the data file (Passwords are set in the CloudStore [admin control panel](https://enjine.cloud/cloudstore/admin.html)). If a password has been set and you do not pass the correct value, you will get an error.
+password | no | Password to access the data file (Passwords are set in the CloudStore [admin dashboard](https://enjine.cloud/cloudstore/admin.html)). If a password has been set and you do not pass the correct value, you will get an error.
 
 ### Example
 
 ```javascript
 //Create CloudStore component.
-cloud = app.CreateCloudStore( "<YOUR_CLOUDSTORE_KEY>" )
+cloud = CreateCloudStore( "<YOUR_CLOUDSTORE_KEY>" )
 
 //Load some data.
 cloud.Load( "Shopping_List", onLoad )
@@ -118,7 +118,7 @@ password | no | Password to access data file if one is set
 
 ```javascript
 //Create CloudStore component.
-cloud = app.CreateCloudStore( "<YOUR_CLOUDSTORE_KEY>" )
+cloud = CreateCloudStore( "<YOUR_CLOUDSTORE_KEY>" )
 
 //Save some data.
 cloud.Save( "Shopping_List", {"Apples":8,"Oranges":6}, onSave )
@@ -135,7 +135,7 @@ function onSave( error, response, status )
 
 ```javascript
 // Create CloudStore component.
-cloud = app.CreateCloudStore( "<YOUR_CLOUDSTORE_KEY>" )
+cloud = CreateCloudStore( "<YOUR_CLOUDSTORE_KEY>" )
 
 // Update our Shopping List with some a new item and change the value of existing items.
 cloud.Merge( "Shopping_List", {"Apples":8,"Oranges":10,"Bananas":8}, onSave )
@@ -183,7 +183,7 @@ callback | yes | A function that returns 3 parameters: error, response, status. 
 
 ```javascript
 //Create CloudStore component.
-cloud = app.CreateCloudStore( "<YOUR_CLOUDSTORE_KEY>" )
+cloud = CreateCloudStore( "<YOUR_CLOUDSTORE_KEY>" )
 
 cloud.List( "Shopping", onList )
 
@@ -210,13 +210,13 @@ Parameter | Required | Description
 --------- | ------- | -----------
 key | yes | A string id to identify the data store to delete.  This is case sensitive.
 callback | no | A function that returns 3 parameters: error, response, status. On success you will see the string 'File Deleted' in response.data
-password | no | The value for the **edit** password set in the CloudStore [admin control panel](https://enjine.cloud/cloudstore/admin.html)
+password | no | The value for the **edit** password set in the CloudStore [admin dashboard](https://enjine.cloud/cloudstore/admin.html)
 
 ### Example
 
 ```javascript
 //Create CloudStore component.
-cloud = app.CreateCloudStore( "<YOUR_CLOUDSTORE_KEY>" )
+cloud = CreateCloudStore( "<YOUR_CLOUDSTORE_KEY>" )
 
 cloud.Delete( "Shopping_List", onDelete )
 
@@ -231,22 +231,22 @@ function onDelete( error, response, status )
 
 ## Password Protection
 
-You can control **read** and **edit** access to your data files by setting a password to each file in the CloudStore [admin control panel](https://enjine.cloud/cloudstore/admin.html).  
+You can control **read** and **write** access to your data files by setting a password to each file in the CloudStore [admin dashboard](https://enjine.cloud/cloudstore/admin.html).  
 
-Please see the section [Dashboard](#Dashboard)
+To see an example of this in action please see the section [Dashboard](#dashboard) below.
 
 # Media
 
 CloudStore allows you to store media files (text and image files) in the cloud so they can be accessed across multiple apps 
 and stay persistent event when your app is removed from your device.
 
-> <aside class="notice-right">To access media files across multiple apps, you will need to use the same api key in each app</aside>
+> <aside class="notice-right">To access your media files across multiple apps, you must use the same api key in each app</aside>
 
 ## Upload
 
 `cloud.Upload( data, filename, type, callback )`
 
-The **Upload** function allows you to upload a file to the cloud.  You can set permissions for editing files in the [admin control panel](https://enjine.cloud/cloudstore/admin.html)
+The **Upload** function allows you to upload a file to the cloud.  You can set permissions for editing files in the [admin dashboard](https://enjine.cloud/cloudstore/admin.html)
 
 Parameter | Required | Description
 --------- | ------- | -----------
@@ -254,11 +254,12 @@ data | yes | The file being uploaded in string form
 filename | yes | The filename you want it stored as. This will be case sensitive when reading. Do not use spaces in your filenames.
 type | no | The file type being uploaded (e.g. "image/jpg" or "text")
 callback | no | A function that returns 3 parameters: error, response, status. On success you will see confirmation in response.data
+password | no | A string password if one has been set in the [admin dashboard](https://enjine.cloud/cloudstore/admin.html)
 
 ### Example
 
 ```javascript
-cloud = app.CreateCloudStore( "<YOUR_CLOUDSTORE_KEY>" )
+cloud = CreateCloudStore( "<YOUR_CLOUDSTORE_KEY>" )
 app.ChooseFile( "Choose a file", "*/*", OnFileChoose );
 
 // Let's assume you choose an image as your file
@@ -277,13 +278,27 @@ function onUpload( error, response, status )
 }
 ```
 
+## File Location
+
+You can copy the full path to your file in the CloudStore [admin dashboard](https://enjine.cloud/cloudstore/admin.html). For more information on this read the section on [Media Files](#media) below.
+
+> <aside class="notice-right">Media paths are unique and unguessable (non sequential) for safe sharing publically or privately.</aside>
+
+## Password Protection
+
+You can control **edit** access to your media files by setting a password to each file in the CloudStore [admin dashboard](https://enjine.cloud/cloudstore/admin.html).
+
+If a password has been set on a media file then you must include the password as the final parameter in the **Upload** function call.
+
+An example can be seen in the following section.
+
 # Dashboard
 
 ## Loading
 
 - Navigate to [https://enjine.cloud/cloudstore/admin.html](https://enjine.cloud/cloudstore/admin.html)
 - Log in using your **Username** and **Password**
-- You should now be at the enjine.io control panel
+- You should now be at the enjine.io dashboard
 
 ## User Info
 
@@ -300,9 +315,9 @@ in the panel to the right of the list.
 
 ### Password Protection
 
-It is possible to control **view** and **edit** access to data files uploaded to the **CloudStore dashboard**.
+It is possible to control **view** and **edit** access to data files inside the [admin dashboard](https://enjine.cloud/cloudstore/admin.html).
 
-To the right of each file is a checkbox.  If you select one or more files using the checkboxes you will see the **delete** and **padlock** icons highlighted.
+To the right of each file is a checkbox.  Select a checkbox and you will see the **delete** and **padlock** icons highlighted.
 
 <%= image_tag "images/dashboard_df_pwd_1.png" %>
 
@@ -310,19 +325,21 @@ If you press the **padlock** icon you will see a dialog box appear allowing you 
 
 <%= image_tag "images/dashboard_df_pwd_2.png" %>
 
-Set the password to enable **edit** control. Now whenever a user tries to edit this file they will need to pass along the password to each function call.
+Set the password to enable **edit** control. Now you will need to pass this password as the final parameter when using the **Merge** or **Save** functions.
+
+> <aside class="notice-right">Try not to hard code the password in your application.  Use a prompt to capture the password.</aside>
 
 ### Example
 
-Let's start by setting a an **edit** password on our **Shopping List** data file
+Here we set an **edit** password to our **Shopping_List** data file
 
 <%= image_tag "images/dashboard_df_pwd_3.png" %>
 
-Now let's try merging with this data file, but without appending the password in our **Merge** function
+Now let's see what happens if we try merging new items into our shopping list without appending the password to our **Merge** function
 
 ```javascript
 //Create CloudStore component.
-cloud = app.CreateCloudStore( "<YOUR_CLOUDSTORE_KEY>" )
+cloud = CreateCloudStore( "<YOUR_CLOUDSTORE_KEY>" )
 
 function btnMerge_OnTouch()
 {
@@ -337,12 +354,13 @@ function onMerge( error, response, status )
 }
 ```
 
-If you try to run the code above you should get a **File Locked** error.  
-You must send the correct password as the final parameter in the **Merge** function:
+If you try to run the code above you will get the following response in response.error: **Locked**.
+
+Now let's send the correct password as the final parameter in the **Merge** function like so:
 
 ```javascript
 //Create CloudStore component.
-cloud = app.CreateCloudStore( "<YOUR_CLOUDSTORE_KEY>" )
+cloud = CreateCloudStore( "<YOUR_CLOUDSTORE_KEY>" )
 
 function btnMerge_OnTouch()
 {
@@ -357,7 +375,7 @@ function onMerge( error, response, status )
 }
 ```
 
-If you now run this code you should see the message **Entry saved**.
+If you now run this code you will see the message **Entry saved**.
 
 ## Media Files
 
@@ -365,6 +383,14 @@ If you now run this code you should see the message **Entry saved**.
 
 The **media files** panel lists all your uploaded media files.  Like the data files panel, if you click on the filenames it will show you details about the uploaded file 
 including a preview snapshot of the file if it's an image file.
+
+### File Location
+
+To find the full path of your media file simply highlight your file and press the copy link button in the right panel.
+
+<%= image_tag "images/dashboard_media_files_2.png" %>
+
+> <aside class="notice-right">Media paths are unique and unguessable (non sequential) for safe sharing publically or privately.</aside>
 
 ### Password Protection
 
@@ -380,3 +406,36 @@ If you press the **padlock** icon you will see a dialog box appear allowing you 
 
 Set the password to enable **edit** control. Now whenever a user tries to edit this file they will need to pass along the password to each function call.
 
+> <aside class="notice-right">Don't hard code passwords in your application.  Use a prompt to capture the password.</aside>
+
+### Example
+
+We want to protect our uploaded file "jazz3.jpg" from being overwritten by unauthroised users.
+
+To do this we:
+    - Assign a password to the file using our [admin dashboard](https://enjine.cloud/cloudstore/admin.html)
+    - Now whenever we want to override the file, we must include the password as our final parameter in the **Upload** function
+
+`For thie example we have assigned the password as "12345"`
+
+```javascript
+cloud = CreateCloudStore( "<YOUR_CLOUDSTORE_KEY>" )
+app.ChooseFile( "Choose a file", "*/*", OnFileChoose );
+
+// Let's assume you choose an image as your file
+function OnFileChoose( filename )
+{
+    // filename
+    data = app.ReadFile( filename, "base64" )
+    cloud.Upload( data, "jazz3.jpg", "image/jpg", onUpload, "12345" )
+}
+
+function onUpload( error, response, status )
+{
+    if( error ) console.log( "Http Error: " + response + " " + status )
+    else if( response.error ) console.log( "CloudStore Error: " + response.error )
+    else console.log( response.message );
+}
+```
+
+If you run this code you should get a response back with the messsage: **File Uploaded**
