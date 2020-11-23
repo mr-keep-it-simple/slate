@@ -19,12 +19,13 @@ code_run: true
 
 <div id="img-overview"><%= image_tag "images/enjine_io_architecture.png" %></div>
 
-CloudStore uses API keys to allow access to the CloudStore service. You can register a new CloudStore key on our [enjine.io portal](http://enjine.io/index.php/platforms/cloud/#idPricing).
+CloudStore makes it possible to:
 
-This feature makes it possible to:
-
- - Save data outside of your app to share with other apps (both apps need to use the same CloudStore key)
- - Keep your data persistent even if your app gets deleted from your device or you install your app on another device
+ - Save data and media files to a secure online location
+ - Keep your data persistent across devices and apps
+ - Keep your data safe with password protection and unguessable file paths
+ 
+ > <aside class="notice-right">CloudStore uses unique API keys to allow access to the CloudStore service.</aside>
 
 # Data
 
@@ -38,7 +39,7 @@ Parameter | Required | Description
 --------- | ------- | -----------
 key | yes | A string id to identify the data to store. This value is case sensitive.
 value | yes | The data to store.  You can store a string, integer, or even pass a JavaScript object.
-callback | no | A function that returns 3 parameters: error, response, status
+callback | no | A function that returns a response object: response.  If response.error is undefined, you can access the data through response.data.
 
 ### Example
 
@@ -50,11 +51,10 @@ cloud = CreateCloudStore( "<YOUR_CLOUDSTORE_KEY>" )
 cloud.Save( "Shopping_List", {"Apples":8,"Oranges":6}, onSave )
 
 //Handle the response.
-function onSave( error, response, status )
+function onSave( response )
 {
-    if( error ) console.log( "Http Error: " + response + " " + status )
-    else if( response.error ) console.log( "CloudStore Error: " + response.error )
-    else console.log( "Data Saved: " + response.data )
+    if( response.error ) console.log( "Error: " + response.error + ", " + response.message )
+    else console.log( response.message );
 }
 ```
 
@@ -69,7 +69,7 @@ function onSave( error, response, status )
 Parameter | Required | Description
 --------- | ------- | -----------
 key | yes | A string id to identify the data to store. This value is case sensitive.
-callback | no | A function that returns 3 parameters: error, response, status.  If the response is OK, you can access the data through response.data.
+callback | no | A function that returns a response object: response.  If response.error is undefined, you can access the data through response.data.
 password | no | Password to access the data file (Passwords are set in the CloudStore [admin dashboard](https://enjine.cloud/cloudstore/admin.html)). If a password has been set and you do not pass the correct value, you will get an error.
 
 ### Example
@@ -82,11 +82,10 @@ cloud = CreateCloudStore( "<YOUR_CLOUDSTORE_KEY>" )
 cloud.Load( "Shopping_List", onLoad )
 
 //Handle the response.
-function onLoad( error, response, status )
+function onLoad( response )
 {
-    if( error ) console.log( "Http Error: " + response + " " + status )
-    else if( response.error ) console.log( "CloudStore Error: " + response.error )
-    else console.log( response.data.Apples );
+    if( response.error ) app.ShowPopup( "Error: " + response.error + ", " + response.message )
+    else app.ShowPopup( JSON.stringify(response.data) );
 }
 ```
 
@@ -109,7 +108,7 @@ Parameter | Required | Description
 --------- | ------- | -----------
 key | yes | A string id to identify the data to merge
 value | yes | A JavaScript data object containing the data you want to merge with the source object.  If no source object exists, a new object will be created
-callback | no | A function that returns 3 parameters: error, response, status
+callback | no | A function that returns a response object: response.  If response.error is undefined, you can access the data through response.data.
 password | no | Password to access data file if one is set
 
 ### Example
@@ -123,11 +122,10 @@ cloud = CreateCloudStore( "<YOUR_CLOUDSTORE_KEY>" )
 //Save some data.
 cloud.Save( "Shopping_List", {"Apples":8,"Oranges":6}, onSave )
 
-function onSave( error, response, status )
+function onSave( response )
 {
-  if( error ) console.log( "Http Error: " + response + " " + status )
-  else if( response.error ) console.log( "CloudStore Error: " + response.error )
-  else console.log( "Data Saved: " + response.data )
+    if( response.error ) console.log( "Error: " + response.error + ", " + response.message )
+    else console.log( response.message );
 }
 ```
 
@@ -141,24 +139,24 @@ cloud = CreateCloudStore( "<YOUR_CLOUDSTORE_KEY>" )
 cloud.Merge( "Shopping_List", {"Apples":8,"Oranges":10,"Bananas":8}, onSave )
 
 // Handle the response.
-function onSave( error, response, status )
+function onSave( response )
 {
-    if( error ) console.log( "Http Error: " + response + " " + status )
-    else if( response.error ) console.log( "CloudStore Error: " + response.error )
+    if( response.error ) console.log( "Error: " + response.error + ", " + response.message )
     else {
-        // Data merged successfully
+        // Data merged successfully    
+        console.log( response.message );
+        
         // Lets now reload the data to see if our object has changed
-        cloud.Load( "Shopping_List", onLoad )
+        cloud.Load( "Shopping_List", onLoad )        
     }
 }
 
 // Handle the response.
-function onLoad( error, response, status )
+function onLoad( response )
 {
     // You should now see your new Shopping_List with 10 Oranges and 8 Bananas
-    if( error ) console.log( "Http Error: " + response + " " + status )
-    else if( response.error ) console.log( "CloudStore Error: " + response.error )
-    else console.log( response.data.Bananas );
+    if( response.error ) app.ShowPopup( "Error: " + response.error + ", " + response.message )
+    else console.log( JSON.stringify(response.data) );    
 }
 ```
 
@@ -177,7 +175,7 @@ You would get back a comma separated string that looked like this: "steve1,steve
 Parameter | Required | Description
 --------- | ------- | -----------
 filter | yes | A string containing the word you want to search for.  This is case sensitive.  If you pass and empty string "", it will return **all** your data files.
-callback | yes | A function that returns 3 parameters: error, response, status. On a successful return, you should see your data in response.data
+callback | yes | A function that returns a response object: response.  If response.error is undefined, you can access the data through response.data.
 
 ### Example
 
@@ -188,14 +186,15 @@ cloud = CreateCloudStore( "<YOUR_CLOUDSTORE_KEY>" )
 cloud.List( "Shopping", onList )
 
 //Handle the response.
-function onList( error, response, status )
+function onList( response )
 {
-    if( error ) console.log( "Http Error: " + response + " " + status )
-    else if( response.error ) console.log( "CloudStore Error: " + response.error )
-    else console.log( response.data ); 
-    // this will show a comma separated list of all files matching your filter
+    if( response.error ) console.log( "Error: " + response.error + ", " + response.message )
+    else console.log( response.data );
+    // 
 }
 ```
+
+> <aside class="notice-right">This will show a comma separated list of all files matching your filter</aside>
 
 ## Deleting data
 
@@ -209,7 +208,7 @@ If you try removing an object that does not exist, it will return with an error 
 Parameter | Required | Description
 --------- | ------- | -----------
 key | yes | A string id to identify the data store to delete.  This is case sensitive.
-callback | no | A function that returns 3 parameters: error, response, status. On success you will see the string 'File Deleted' in response.data
+callback | no | A function that returns a response object: response.  If response.error is undefined, you can access the data through response.data.
 password | no | The value for the **edit** password set in the CloudStore [admin dashboard](https://enjine.cloud/cloudstore/admin.html)
 
 ### Example
@@ -221,11 +220,10 @@ cloud = CreateCloudStore( "<YOUR_CLOUDSTORE_KEY>" )
 cloud.Delete( "Shopping_List", onDelete )
 
 //Handle the response.
-function onDelete( error, response, status )
+function onDelete( response )
 {
-    if( error ) console.log( "Http Error: " + response + " " + status )
-    else if( response.error ) console.log( "CloudStore Error: " + response.error )
-    else console.log( response.data );
+    if( response.error ) console.log( "Error: " + response.error + ", " + response.message )
+    else console.log( response.message );
 }
 ```
 
@@ -253,7 +251,7 @@ Parameter | Required | Description
 data | yes | The file being uploaded in string form
 filename | yes | The filename you want it stored as. This will be case sensitive when reading. Do not use spaces in your filenames.
 type | no | The file type being uploaded (e.g. "image/jpg" or "text")
-callback | no | A function that returns 3 parameters: error, response, status. On success you will see confirmation in response.data
+callback | no | A function that returns a response object: response.  If response.error is undefined, you can access the data through response.data.
 password | no | A string password if one has been set in the [admin dashboard](https://enjine.cloud/cloudstore/admin.html)
 
 ### Example
@@ -270,11 +268,10 @@ function OnFileChoose( filename )
     cloud.Upload( data, "jazz3.jpg", "image/jpg", onUpload )
 }
 
-function onUpload( error, response, status )
+function onUpload( response )
 {
-    if( error ) console.log( "Http Error: " + response + " " + status )
-    else if( response.error ) console.log( "CloudStore Error: " + response.error )
-    else console.log( response.message );
+    if( response.error ) console.log( "Error: " + response.error + ", " + response.message )
+    else console.log( JSON.stringify(response.data) );
 }
 ```
 
@@ -297,7 +294,7 @@ An example can be seen in the following section.
 ## Loading
 
 - Navigate to [https://enjine.cloud/cloudstore/admin.html](https://enjine.cloud/cloudstore/admin.html)
-- Log in using your **Username** and **Password**
+- Log in using your **Username** and **Password** - Passwords are auto generated and are sent to you via email
 - You should now be at the enjine.io dashboard
 
 ## User Info
@@ -346,11 +343,10 @@ function btnMerge_OnTouch()
     cloud.Merge( "Shopping_List", { plums:5 }, onMerge )
 }
 
-function onMerge( error, response, status )
+function onMerge( response )
 {
-    if( error ) console.log( "Http Error: " + response + " " + status )
-    else if( response.error ) console.log( "CloudStore Error: " + response.error )
-    else { console.log( response.data ) }
+    if( response.error ) app.ShowPopup( "Error: " + response.error + ", " + response.message )
+    else app.ShowPopup( JSON.stringify(response.data) );
 }
 ```
 
@@ -367,11 +363,10 @@ function btnMerge_OnTouch()
     cloud.Merge( "Shopping_List", { plums:5 }, onMerge, "12345" )
 }
 
-function onMerge( error, response, status )
+function onMerge( response )
 {
-    if( error ) console.log( "Http Error: " + response + " " + status )
-    else if( response.error ) console.log( "CloudStore Error: " + response.error )
-    else { console.log( response.data ) }
+    if( response.error ) console.log( "Error: " + response.error + ", " + response.message )
+    else console.log( JSON.stringify(response.data) );
 }
 ```
 
@@ -430,11 +425,10 @@ function OnFileChoose( filename )
     cloud.Upload( data, "jazz3.jpg", "image/jpg", onUpload, "12345" )
 }
 
-function onUpload( error, response, status )
+function onUpload( response )
 {
-    if( error ) console.log( "Http Error: " + response + " " + status )
-    else if( response.error ) console.log( "CloudStore Error: " + response.error )
-    else console.log( response.message );
+    if( response.error ) app.ShowPopup( "Error: " + response.error + ", " + response.message )
+    else app.ShowPopup( JSON.stringify(response.data) );
 }
 ```
 

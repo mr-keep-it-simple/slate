@@ -54,5 +54,4 @@ ClhXXPi5bjcTjGjVqqp2
 - Tue 10-11: 2hrs Finish up of first version of documentation
 - Wed 18-11: 4hrs Discussed status and next steps. Made changes to text and images
 - Thu 19-11: 1hr Change all refs for admin control panel to admin dashboard; Updated all pictures of admin dashboard; Updated password protection and tidied up more of the document
-
-
+- Mon 20-11: 2hrs Fixes to callback changes.  Updated image and text for overview. Fixed other small changes

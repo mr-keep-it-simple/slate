@@ -660,6 +660,7 @@ html, body {
 .page-wrapper { background-color: $nav-bg; }
 .page-wrapper .dark-box { display:none; }
 .toc-wrapper .toc-link.active-parent, .toc-wrapper .toc-list-h2 { background-color:transparent; }
+#img-overview { width:80%; margin:0 auto 1rem auto;  }
 
 @media (min-width: 700px) {
   div.highlight { margin:0 2rem; }
@@ -667,6 +668,6 @@ html, body {
     background-color: transparent !important;
     margin-left: 2rem !important; 
   width:auto !important; }
-  #img-overview { width:50%; }
+  #img-overview { width:40%; margin:0 0 1.5rem 1rem; }
   .toc-wrapper { padding-top:2rem; }
 }
