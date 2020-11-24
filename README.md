@@ -87,7 +87,6 @@ Special Thanks
 - [middleman-gh-pages](https://github.com/edgecase/middleman-gh-pages)
 - [Font Awesome](http://fortawesome.github.io/Font-Awesome/)
 
-
 ## Running project within vscode
 -------------------
 - Open Terminal window
