@@ -49,9 +49,10 @@ ClhXXPi5bjcTjGjVqqp2
 - Mon 02-11: 2hrs Building static html version. New documentation added. Dark theme added
 - Tue 03-11: 2hrs Continuation of documentation.  Load and Upload methods added to CloudStore doc
 - Wed 04-11: 2hrs Discussion of structure, layout, styling and further dev tasks.  Modification of layout and further styling
-- Thu 05-11: 1.5hrs Continuation of documentation and tidying up of code examples to change from Greenhouse to Shopping List
-- Mon 09-11: 4.5hrs Added Media documentation, corrected mistakes and extended Data File documentation.  Added documentation for new dashboard UI
+- Thu 05-11: 2hrs Continuation of documentation and tidying up of code examples to change from Greenhouse to Shopping List
+- Mon 09-11: 4hrs Added Media documentation, corrected mistakes and extended Data File documentation.  Added documentation for new dashboard UI
 - Tue 10-11: 2hrs Finish up of first version of documentation
 - Wed 18-11: 4hrs Discussed status and next steps. Made changes to text and images
 - Thu 19-11: 1hr Change all refs for admin control panel to admin dashboard; Updated all pictures of admin dashboard; Updated password protection and tidied up more of the document
-- Mon 20-11: 2hrs Fixes to callback changes.  Updated image and text for overview. Fixed other small changes
+- Mon 23-11: 2hrs - Fixes to callback changes.  Updated image and text for overview. Fixed other small changes
+- Tue 24-11: 2hrs - Fixes. Changed ShowPopup to console.warn and console.log.  Removed instances of app. Changed cloud = CreateCloudStore to cloud = new CloudStore
