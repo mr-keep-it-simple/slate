@@ -56,3 +56,4 @@ ClhXXPi5bjcTjGjVqqp2
 - Thu 19-11: 1hr Change all refs for admin control panel to admin dashboard; Updated all pictures of admin dashboard; Updated password protection and tidied up more of the document
 - Mon 23-11: 2hrs - Fixes to callback changes.  Updated image and text for overview. Fixed other small changes
 - Tue 24-11: 2hrs - Fixes. Changed ShowPopup to console.warn and console.log.  Removed instances of app. Changed cloud = CreateCloudStore to cloud = new CloudStore
+- Wed 25-11

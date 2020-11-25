@@ -644,6 +644,7 @@ html, body {
 /*.content > h2, .content > div {
   clear: none !important; }
 */
+body { background:url(images/bg.png) 0 0 repeat }
 .logo { display:none !important; /*margin-top:1rem;*/ }
 /*.logo:after { content:'CloudStore'; display:block; color: #fff; font-size:1rem; }*/
 /*.content>h1:first-child::before { content:"CloudStore"; font-size:1.1rem; font-weight:600; color:#fff; }*/
