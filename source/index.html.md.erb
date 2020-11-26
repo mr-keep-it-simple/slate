@@ -19,7 +19,7 @@ code_run: true
 
 <div id="img-overview"><%= image_tag "images/enjine_io_architecture.png" %></div>
 
-CloudStore makes it possible to:
+CloudStore makes it possible to
 
  - Save data and media files to a secure online location
  - Keep your data persistent across devices and apps
@@ -27,11 +27,45 @@ CloudStore makes it possible to:
  
  > <aside class="notice-right">CloudStore uses unique API keys to allow access to the CloudStore service.</aside>
 
+## Initializing CloudStore
+
+The are 2 ways to include CloudStore into your project
+
+### 1. Link to the online version
+
+You can link directly to the latest version by adding the following **script** tag to the bottom of your html page within the **body** tags:
+
+```javascript
+<script src="https://enjine.io/js/latest/cloudstore.min.js"></script>
+```
+
+### 2. Download and use locally
+
+You can also download the latest version of the CloudStore script from [https://enjine.io/js/latest/cloudstore.min.js](https://enjine.io/js/latest/cloudstore.min.js)
+
+Once downloaded, copy the script to your project directory and add it to the bottom of your html page within the **body** tags:
+
+```javascript
+<script src="<PATH_TO_YOUR_FILE>/cloudstore.min.js"></script>
+```
+
+### Initializing CloudStore
+
+Before you can use CloudStore in your project you need to initialize it.  To do this add the following code:
+
+```javascript
+cloud = new CloudStore( "<YOUR_CLOUDSTORE_KEY>" )
+```
+
+> <aside class="notice-right">You must replace <code>&lt;YOUR_CLOUDSTORE_KEY&gt;</code> with your unique CloudStore API key which you would have received when registering with enjine.io/</aside>
+
 # Data
 
 ## Saving data
 
-`cloud.Save( key, value, callback )`
+```javascript
+cloud.Save( key, value, callback, password )
+```
 
 ### Query Parameters
 
@@ -40,13 +74,11 @@ Parameter | Required | Description
 key | yes | A string id to identify the data to store. This value is case sensitive.
 value | yes | The data to store.  You can store a string, integer, or even pass a JavaScript object.
 callback | no | A function that returns a response object: response.  If response.error is null, you can access the data through response.data.
+password | no | Password to write over the data file if already exists (Passwords are set in the CloudStore [admin dashboard](https://enjine.cloud/cloudstore/admin.html)). If a password has been set and you do not pass the correct value, you will get an error.
 
 ### Example
 
 ```javascript
-//Create CloudStore component.
-cloud = new CloudStore( "<YOUR_CLOUDSTORE_KEY>" )
-
 //Save some data.
 cloud.Save( "Shopping_List", {"Apples":8,"Oranges":6}, onSave )
 
@@ -58,11 +90,11 @@ function onSave( response )
 }
 ```
 
-> <aside class="notice-right">You must replace <code>&lt;YOUR_CLOUDSTORE_KEY&gt;</code> with your personal CloudStore key.</aside>
-
 ## Getting data
 
-`cloud.Load( key, callback, password )`
+```javascript
+cloud.Load( key, callback, password )`
+```
 
 ### Query Parameters
 
@@ -75,34 +107,26 @@ password | no | Password to access the data file (Passwords are set in the Cloud
 ### Example
 
 ```javascript
-//Create CloudStore component.
-cloud = new CloudStore( "<YOUR_CLOUDSTORE_KEY>" )
-
 //Load some data.
 cloud.Load( "Shopping_List", onLoad )
 
 //Handle the response.
 function onLoad( response )
 {
-    if( response.error ) console.warn( "Error: " + response.error + ", " + response.message )
+    if( response.error ) console.error( "Error: " + response.error + ", " + response.message )
     else console.log( JSON.stringify(response.data) )
 }
 ```
 
 ## Merging data
 
-`cloud.Merge( key, value, callback, password )`
+```javascript
+cloud.Merge( key, value, callback, password )
+```
 
-The **Merge** function allows you to merge and update existing data objects.
+The **Merge** function allows you to merge and update existing data objects.  If the data object you are trying to merge with does not exist, it will create a new object.
 
-If the data object you are trying to merge with does not exist, it will create a new object with the **key** parameter. 
-
- - The **Merge** function recursively merges values passed with the source object, replacing any existing data and adding new data.
- - Source properties that resolve to null are skipped if a destination value exists.
- - Array and plain object properties are merged recursively.
- - Other objects and value types are overridden by assignment.
- - Source objects are applied from left to right.
- - Subsequent sources overwrite property assignments of previous sources.
+The function recursively merges values passed from the source object, replacing existing data and adding new data.  It will also recursively merge arrays.
 
 Parameter | Required | Description
 --------- | ------- | -----------
@@ -116,10 +140,7 @@ password | no | Password to access data file if one is set
 #### App 1
 
 ```javascript
-//Create CloudStore component.
-cloud = new CloudStore( "<YOUR_CLOUDSTORE_KEY>" )
-
-//Save some data.
+// Save some data.
 cloud.Save( "Shopping_List", {"Apples":8,"Oranges":6}, onSave )
 
 function onSave( response )
@@ -132,9 +153,6 @@ function onSave( response )
 #### App 2
 
 ```javascript
-// Create CloudStore component.
-cloud = new CloudStore( "<YOUR_CLOUDSTORE_KEY>" )
-
 // Update our Shopping List with some a new item and change the value of existing items.
 cloud.Merge( "Shopping_List", {"Apples":8,"Oranges":10,"Bananas":8}, onSave )
 
@@ -155,20 +173,24 @@ function onSave( response )
 function onLoad( response )
 {
     // You should now see your new Shopping_List with 10 Oranges and 8 Bananas
-    if( response.error ) console.warn( "Error: " + response.error + ", " + response.message )
+    if( response.error ) console.error( "Error: " + response.error + ", " + response.message )
     else console.log( JSON.stringify(response.data) )
 }
 ```
 
 ## Listing Data Files
 
-`cloud.List( filter, callback )`
+```javascript
+cloud.List( filter, callback )
+```
 
 The **List** function allows you to get a comma separated list of all your data files that match the filter.  
 
 For example, if you had two data files with the keys "steve1" and "steve2" and called the **List** function like this:
 
-'cloud.List( "steve", callback )'
+```javascript
+cloud.List( "steve", callback )
+```
 
 You would get back a comma separated string that looked like this: "steve1,steve2".
 
@@ -180,9 +202,6 @@ callback | yes | A function that returns a response object: response.  If respon
 ### Example
 
 ```javascript
-//Create CloudStore component.
-cloud = new CloudStore( "<YOUR_CLOUDSTORE_KEY>" )
-
 cloud.List( "Shopping", onList )
 
 //Handle the response.
@@ -198,7 +217,9 @@ function onList( response )
 
 ## Deleting data
 
-`cloud.Delete( key, callback, password )`
+```javascript
+cloud.Delete( key, callback, password )
+```
 
 The **Delete** function allows you to delete existing data objects from the CloudStore.
 
@@ -214,9 +235,6 @@ password | no | The value for the **edit** password set in the CloudStore [admin
 ### Example
 
 ```javascript
-//Create CloudStore component.
-cloud = new CloudStore( "<YOUR_CLOUDSTORE_KEY>" )
-
 cloud.Delete( "Shopping_List", onDelete )
 
 //Handle the response.
@@ -242,7 +260,9 @@ and stay persistent event when your app is removed from your device.
 
 ## Upload
 
-`cloud.Upload( data, filename, type, callback, password )`
+```javascript
+cloud.Upload( data, filename, type, callback, password )
+```
 
 The **Upload** function allows you to upload a file to the cloud.  You can set permissions for editing files in the [admin dashboard](https://enjine.cloud/cloudstore/admin.html)
 
@@ -259,8 +279,6 @@ password | no | A password if one has been set in the [admin dashboard](https://
 ### Example
 
 ```javascript
-cloud = new CloudStore( "<YOUR_CLOUDSTORE_KEY>" )
-
 // Let's assume you want to upload an image to the CloudStore
 // You must upload images as a string in a format such as base64
 cloud.Upload( file_data, "jazz3.jpg", "image/jpg", onUpload )
@@ -332,9 +350,6 @@ Here we set an **edit** password to our **Shopping_List** data file
 Now let's see what happens if we try merging new items into our shopping list without appending the password to our **Merge** function
 
 ```javascript
-//Create CloudStore component.
-cloud = new CloudStore( "<YOUR_CLOUDSTORE_KEY>" )
-
 function btnMerge_OnTouch()
 {
     cloud.Merge( "Shopping_List", { plums:5 }, onMerge )
@@ -342,7 +357,7 @@ function btnMerge_OnTouch()
 
 function onMerge( response )
 {
-    if( response.error ) console.warn( "Error: " + response.error + ", " + response.message )
+    if( response.error ) console.error( "Error: " + response.error + ", " + response.message )
     else console.log( JSON.stringify(response.data) )
 }
 ```
@@ -352,9 +367,6 @@ If you try to run the code above you will get the following response in response
 Now let's send the correct password as the final parameter in the **Merge** function like so:
 
 ```javascript
-//Create CloudStore component.
-cloud = new CloudStore( "<YOUR_CLOUDSTORE_KEY>" )
-
 function btnMerge_OnTouch()
 {
     cloud.Merge( "Shopping_List", { plums:5 }, onMerge, "12345" )
@@ -408,18 +420,16 @@ To do this we:
     - Assign a password to the file using our [admin dashboard](https://enjine.cloud/cloudstore/admin.html)
     - Now whenever we want to override the file, we must include the password as our final parameter in the **Upload** function
 
-`For thie example we have assigned the password as "12345"`
+For thie example we have assigned the password as **12345**
 
 ```javascript
-cloud = new CloudStore( "<YOUR_CLOUDSTORE_KEY>" )
-
 // Let's assume you want to upload an image to the CloudStore
 // You must upload images as a string in a format such as base64
 cloud.Upload( file_data, "jazz3.jpg", "image/jpg", onUpload, "12345" )
 
 function onUpload( response )
 {
-    if( response.error ) console.warn( "Error: " + response.error + ", " + response.message )
+    if( response.error ) console.error( "Error: " + response.error + ", " + response.message )
     else console.log( JSON.stringify(response.data) )
 }
 ```
