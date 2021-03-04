@@ -657,6 +657,7 @@ html, body {
 .content pre, .content blockquote { width:100% !important; float:none !important;}
 .content a { color: #0F75D4 !important; }
 .content code { background-color:rgba(0, 0, 0, 0.25) }
+.highlight .o, .highlight .k, .highlight .err { color:#ffffff; }
 .content table td { padding:5px 10px; }
 .page-wrapper { background: url(../images/bg.png) 0 0 repeat;  }
 .page-wrapper .dark-box { display:none; }
