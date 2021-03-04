@@ -77,4 +77,12 @@ ClhXXPi5bjcTjGjVqqp2
 - Mon 23-11: 2hrs - Fixes to callback changes.  Updated image and text for overview. Fixed other small changes
 - Tue 24-11: 2hrs - Fixes. Changed ShowPopup to console.warn and console.log.  Removed instances of app. Changed cloud = CreateCloudStore to cloud = new CloudStore
 - Wed 25-11: 2hrs - General maintenance and review. Update to CloudStore class file
-- Thu 26-11: 2hrs - Password to Save function, background image added, Merge function desc updated, overview added, new CloudStore entries removed from examples, console.warn changed to console.error
+- Thu 26-11: 4hrs - Password to Save function, background image added, Merge function desc updated, overview added, new CloudStore entries removed from examples, console.warn changed to console.error.  Modified cloudstore.js to use fetch instead of xmlhttprequest.   Still needs testing.
+- Fri 27-11: 4hrs - Final changes to docs and updates to cloudstore.js.  Tested new changes.  Released version to GitHub ready for production
+- Mon 2-12: 2hrs - Made requested changes to cloudstore.js
+- Thu 3-12: 2hrs - Discussed slate docs and next ideas.  Started on game ideas to demo cloud store
+- Mon 7-12: 4hrs - Started to build Maths game
+- Wed 9-12: 3hrs - Continued working on Maths game
+- Thu 10-12: 2.5hrs - Continued working on Maths game. Sent v1 to David in email
+- Wed 16-12: 2hrs - Tested video recording and went through app code
+- Thu 17-12: 2hrs - Modified code to improve layout and sync with other DroidScript examples

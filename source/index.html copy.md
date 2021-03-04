@@ -90,6 +90,14 @@ function OnLoad( error, response, status )
 }
 ```
 
+### 2. Download and use locally
+
+You can also download the latest version of the CloudStore script from GitHub repo at
+ [https://cdn.jsdelivr.net/gh/enjine-io/cloudstore@main/cloudstore.min.js](https://cdn.jsdelivr.net/gh/enjine-io/cloudstore@main/cloudstore.min.js)
+
+Once downloaded, copy the script to your project directory and add it to the bottom of your html page within the **body** tags:
+
+
 ## Merging data
 
 `cloud.Merge( key, value, callback )`

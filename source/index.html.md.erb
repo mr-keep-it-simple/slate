@@ -33,7 +33,7 @@ The are 2 ways to include CloudStore into your project
 
 ### 1. Direct link to our CDN version
 
-You can link directly to the latest version by adding the following **script** tag to the bottom of your html page within the **body** tags:
+You can link directly to the latest version by adding the following **script** tag inside your **head** tags:
 
 ```javascript
 <script src="https://cdn.jsdelivr.net/gh/enjine-io/cloudstore@main/cloudstore.min.js"></script>
@@ -41,9 +41,10 @@ You can link directly to the latest version by adding the following **script** t
 
 ### 2. Download and use locally
 
-You can also download the latest version of the CloudStore script from [https://cdn.jsdelivr.net/gh/enjine-io/cloudstore@main/cloudstore.min.js](https://cdn.jsdelivr.net/gh/enjine-io/cloudstore@main/cloudstore.min.js)
+You can download the latest version of the CloudStore script from the enjine.io GitHub repo at [https://github.com/enjine-io/cloudstore](https://github.com/enjine-io/cloudstore)
+ [https://cdn.jsdelivr.net/gh/enjine-io/cloudstore@main/cloudstore.min.js](https://cdn.jsdelivr.net/gh/enjine-io/cloudstore@main/cloudstore.min.js)
 
-Once downloaded, copy the script to your project directory and add it to the bottom of your html page within the **body** tags:
+Once downloaded, copy the script to your project directory and add it to your html file inside the **head** tags:
 
 ```javascript
 <script src="<PATH_TO_YOUR_FILE>/cloudstore.min.js"></script>
@@ -93,7 +94,7 @@ function onSave( response )
 ## Loading data
 
 ```javascript
-cloud.load( key, callback, password )`
+cloud.load( key, callback, password )
 ```
 
 ### Query Parameters
@@ -213,7 +214,7 @@ function onList( response )
 }
 ```
 
-> <aside class="notice-right">This will show a comma separated list of all files matching your filter</aside>
+> <aside class="notice-right">response.data will show a comma separated list of all files matching your filter</aside>
 
 ## Deleting data
 
