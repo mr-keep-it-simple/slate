@@ -99,3 +99,4 @@ Special Thanks
  - Open up docker image in terminal window
  - run > bundle exec middleman build
  - This build all static web pages to the build folder
+ - Copy changes from Build folder to cloudstore github repo

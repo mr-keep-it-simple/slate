@@ -52,10 +52,23 @@ Once downloaded, copy the script to your project directory and add it to your ht
 
 ### Initializing CloudStore
 
-Before you can use CloudStore in your project you need to initialize it.  To do this add the following code:
+Before you can use CloudStore in your project you need to initialize it like this:
+```javascript
+new CloudStore( key, server, options )
+```
+### Query Parameters
+
+Parameter | Required | Description
+--------- | ------- | -----------
+key | yes | A string id to identify the data to store. This value is case sensitive.
+server | no | The name of the server.  You can send null as the value.
+options | no | The options parameter is an object where you can pass global passwords for accessing either the Data files or Media files in the cloudstore.  The passwords must be set in the **CloudStore dashboard**.
+
+Below is an example:
 
 ```javascript
-const cloud = new CloudStore( "<YOUR_CLOUDSTORE_KEY>" )
+var options = { dataPass: "bingo", mediaPass: "bobbo" };
+const cloud = new CloudStore( "<YOUR_CLOUDSTORE_KEY>", null, options )
 ```
 
 > <aside class="notice-right">You must replace <code>&lt;YOUR_CLOUDSTORE_KEY&gt;</code> with your unique CloudStore API key which you would have received when registering with enjine.io/</aside>
